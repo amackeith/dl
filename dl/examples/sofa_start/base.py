@@ -5,6 +5,8 @@ import torch.nn.functional as F
 import torch.nn as nn
 import gin
 
+from simulation_wrapper import scene_interface
+
 
 class DiscretePolicyBase(PolicyBase):
     """Policy network."""
@@ -33,6 +35,9 @@ class ContinuousPolicyBase(PolicyBase):
 
     def forward(self, x):
         """Forward."""
+        
+        #raise ValueError(repr(x.data.type()) + "\n" +repr(type(x)))
+        x = x.float()
         x = F.relu(self.fc1(x))
         x = F.relu(self.fc2(x))
         return self.dist(x)
@@ -49,6 +54,8 @@ class VFNet(ValueFunctionBase):
 
     def forward(self, x):
         """Forward."""
+
+        x = x.float()
         x = F.relu(self.fc1(x))
         x = F.relu(self.fc2(x))
         return self.vf(x)
@@ -61,14 +68,13 @@ def discrete_policy_fn(env):
 
 
 @gin.configurable
-def continuous_policy_fn(env):
+def sofa_continuous_policy_fn(env):
     """Create policy."""
     return Policy(ContinuousPolicyBase(env.observation_space, env.action_space))
 
 
 @gin.configurable
-def value_fn(env):
+def sofa_value_fn(env):
     """Create value function network."""
-    #print(env.reward_range)
-    #exit()
     return ValueFunction(VFNet(env.observation_space, env.action_space))
+

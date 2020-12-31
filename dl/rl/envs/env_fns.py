@@ -10,6 +10,8 @@ from dl.rl.envs import ActionNormWrapper
 import gin
 import gym
 from gym.wrappers import TimeLimit
+from simulation_wrapper import scene_interface
+
 
 
 class StepOnEndOfLifeEnv(gym.Wrapper):
@@ -105,6 +107,29 @@ def make_env(env_id, nenv=1, seed=0, norm_observations=False,
         env = VecObsNormWrapper(env)
     return env
 
+# make env function for sofa
+@gin.configurable(blacklist=['nenv'])
+def sofa_make_env(env_id, nenv=1, seed=0, norm_observations=False,
+             norm_actions=True):
+    """Create a sofa environment."""
+    def _env(rank):
+        def _thunk():
+            if norm_actions:
+                #replace gym.make with correct thing
+                env = ActionNormWrapper(scene_interface(env_id))
+            env = EpisodeInfo(env)
+            env.seed(seed + rank)
+            return env
+        return _thunk
+
+    if nenv > 1:
+        env = SubprocVecEnv([_env(i) for i in range(nenv)], context='fork')
+    else:
+        env = DummyVecEnv([_env(0)])
+
+    if norm_observations:
+        env = VecObsNormWrapper(env)
+    return env
 
 if __name__ == '__main__':
     import unittest
