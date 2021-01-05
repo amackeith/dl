@@ -109,7 +109,7 @@ def make_env(env_id, nenv=1, seed=0, norm_observations=False,
 
 # make env function for sofa
 @gin.configurable(blacklist=['nenv'])
-def sofa_make_env(env_id, nenv=1, seed=0, norm_observations=False,
+def sofa_make_env(env_id, nenv=1, seed=0, norm_observations=True,
              norm_actions=True):
     """Create a sofa environment."""
     def _env(rank):
