@@ -11,7 +11,7 @@ import gin
 import gym
 from gym.wrappers import TimeLimit
 from simulation_wrapper import scene_interface
-
+import numpy as np
 
 
 class StepOnEndOfLifeEnv(gym.Wrapper):
@@ -116,7 +116,10 @@ def sofa_make_env(env_id, nenv=1, seed=0, norm_observations=False,
         def _thunk():
             if norm_actions:
                 #replace gym.make with correct thing
-                env = ActionNormWrapper(scene_interface(env_id))
+                env = ActionNormWrapper(
+                    scene_interface(env_id,
+                                    design=np.array([[[0,]]]),
+                                    meshFolder="/home/sofauser/workdir/simple_control_policy/one_cell_robot_mesh/"))
             env = EpisodeInfo(env)
             env.seed(seed + rank)
             return env
