@@ -33,7 +33,7 @@ PPO2.alpha = 1.5
 PPO2.max_grad_norm = 5.
 PPO2.gpu = False #True
 
-Checkpointer.ckpt_period = 200
+Checkpointer.ckpt_period = 1000
 
 sofa_make_env.env_id = "SofaThing-v0"
 sofa_make_env.norm_observations = True

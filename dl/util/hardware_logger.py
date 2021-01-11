@@ -34,6 +34,7 @@ def getGPUs():
     for g in range(numDevices):
         line = lines[g]
         vals = line.split(', ')
+        #print(vals)
         id = int(vals[0])
         util = _cast_float(vals[1])
         mem_total = _cast_float(vals[2])
