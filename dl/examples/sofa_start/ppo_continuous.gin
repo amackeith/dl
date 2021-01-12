@@ -38,7 +38,7 @@ Checkpointer.ckpt_period = 1000
 sofa_make_env.env_id = "SofaThing-v0"
 sofa_make_env.norm_observations = True
 
-VecObsNormWrapper.steps = 5000 #10000
+VecObsNormWrapper.steps = 10000
 VecObsNormWrapper.mean = None
 VecObsNormWrapper.std = None
 VecObsNormWrapper.eps = 1e-2
