@@ -1,7 +1,7 @@
 import dl.examples.sofa_start
 
 train.algorithm = @PPO2
-train.maxt = 10000000 #10000000
+train.maxt = 10000000
 train.seed = 0
 train.eval = True
 train.eval_period = 1000000
@@ -38,7 +38,7 @@ Checkpointer.ckpt_period = 100
 sofa_make_env.env_id = "SofaThing-v0"
 sofa_make_env.norm_observations = True
 
-VecObsNormWrapper.steps = 5000 #10000
+VecObsNormWrapper.steps = 10000
 VecObsNormWrapper.mean = None
 VecObsNormWrapper.std = None
 VecObsNormWrapper.eps = 1e-2
